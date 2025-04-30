@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор времени</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        input[type="time"] {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+        }
+        
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Калькулятор времени</h2>
+    
+    <div class="input-group">
+        <label for="startTime">Время начала рабочей смены:</label>
+        <input type="time" id="startTime">
+    </div>
+    
+    <div class="input-group">
+        <label for="onTime">ON:</label>
+        <input type="time" id="onTime">
+    </div>
+    
+    <div class="input-group">
+        <label for="offTime">OFF:</label>
+        <input type="time" id="offTime">
+    </div>
+    
+    <button onclick="calculate()">Рассчитать</button>
+    
+    <div class="result">
+        <p>Рабочее время: <span id="workTime">--:--</span></p>
+        <p>Block time: <span id="blockTime">--:--</span></p>
+    </div>
+    
+    <script>
+        function calculate() {
+            // Получаем значения из полей ввода
+            const startTime = document.getElementById('startTime').value;
+            const onTime = document.getElementById('onTime').value;
+            const offTime = document.getElementById('offTime').value;
+            
+            // Проверяем заполненность всех полей
+            if (!startTime || !onTime || !offTime) {
+                alert('Пожалуйста, заполните все поля времени');
+                return;
+            }
+            
+            // Преобразуем временные значения в объекты Date
+            const startDate = new Date(`1970-01-01T${startTime}:00`);
+            const onDate = new Date(`1970-01-01T${onTime}:00`);
+            const offDate = new Date(`1970-01-01T${offTime}:00`);
+            
+            // Проверяем корректность дат
+            if (isNaN(startDate.getTime()) || 
+                isNaN(onDate.getTime()) || 
+                isNaN(offDate.getTime())) {
+                alert('Некорректное время');
+                return;
+            }
+            
+            // Рассчитываем разницу во времени
+            const workDiff = offDate - startDate;
+            const blockDiff = offDate - onDate;
+            
+            // Функция форматирования времени
+            function formatTime(ms) {
+                if (ms < 0) return 'Ошибка';
+                
+                const totalMinutes = Math.floor(ms / 60000);
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+                
+                return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+            }
+            
+            // Обновляем результаты на странице
+            document.getElementById('workTime').textContent = formatTime(workDiff);
+            document.getElementById('blockTime').textContent = formatTime(blockDiff);
+        }
+    </script>
+</body>
+</html>
