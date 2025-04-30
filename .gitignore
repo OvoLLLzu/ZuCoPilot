@@ -1,0 +1,40 @@
+# Логи и кэш
+*.log
+/logs/
+/tmp/
+.DS_Store
+Thumbs.db
+
+# Папки, которые не нужно отслеживать
+node_modules/
+bower_components/
+dist/
+build/
+
+# Файлы IDE
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.swp
+*.swo
+*.sublime-project
+*.sln
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.suo
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+*.db
+*.sqlite3
+
+# Файлы операционной системы
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
